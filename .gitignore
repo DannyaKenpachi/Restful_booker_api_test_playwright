@@ -1,0 +1,29 @@
+# --- Python (мусор от запуска кода) ---
+__pycache__/
+*.py[cod]
+*$py.class
+
+# --- Виртуальное окружение (venv) ---
+# Важно! Саму папку с библиотеками мы никогда не пушим
+venv/
+.venv/
+env/
+.env
+
+# --- Pytest (кэш тестов) ---
+.pytest_cache/
+
+# --- Playwright (отчеты и скриншоты) ---
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+# --- Среды разработки (настройки редактора) ---
+.idea/
+.vscode/
+*.swp
+
+# --- Отчеты Allure (если будешь использовать) ---
+allure-results/
+allure-report/
