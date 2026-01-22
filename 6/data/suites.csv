@@ -1,0 +1,6 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","11","Полное обновление брони (PATCH)","tests","Thu Jan 22 20:46:49 UTC 2026","passed","Thu Jan 22 20:46:49 UTC 2026","","test_api","",""
+"","9","Проверка получения брони по ID","tests","Thu Jan 22 20:46:49 UTC 2026","passed","Thu Jan 22 20:46:49 UTC 2026","","test_api","",""
+"","29","Удаление существующей брони (DELETE)","tests","Thu Jan 22 20:46:49 UTC 2026","passed","Thu Jan 22 20:46:49 UTC 2026","","test_api","",""
+"","12","Полное обновление брони (PUT)","tests","Thu Jan 22 20:46:49 UTC 2026","passed","Thu Jan 22 20:46:49 UTC 2026","","test_api","",""
+"","92","Проверка получения всех ID бронирований","tests","Thu Jan 22 20:46:49 UTC 2026","passed","Thu Jan 22 20:46:49 UTC 2026","","test_api","",""
