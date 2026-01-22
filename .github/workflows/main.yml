@@ -1,0 +1,86 @@
+name: Playwright Tests
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Скачиваем код из репозитория
+    - uses: actions/checkout@v4
+
+    # 2. Устанавливаем Python
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12" # Или твоя версия (3.10, 3.11)
+
+    # 3. Устанавливаем зависимости (библиотеки)
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        # Устанавливаем браузеры Playwright
+        playwright install chromium
+
+    # 4. Запускаем тесты с генерацией отчета Allure
+    - name: Run tests
+      run: |
+        pytest --alluredir=allure-results
+      continue-on-error: true # Чтобы отчет собрался даже если тесты упадут
+
+    # 5. Загружаем результаты (артефакты)
+    - name: Upload Allure Results
+      uses: actions/upload-artifact@v4
+      with:
+        name: allure-results
+        path: allure-results
+        retention-days: 1
+
+  # (Опционально) Публикация отчета на GitHub Pages
+  # Если не нужно, этот блок можно удалить
+  deploy-report:
+    needs: test
+    runs-on: ubuntu-latest
+    if: always() # Запускать всегда, даже если тесты упали
+    
+    steps:
+      - name: Download Allure Results
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-results
+          path: allure-results
+
+      - name: Get Allure history
+        uses: actions/checkout@v4
+        if: always()
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Allure Report Action with History
+        uses: simple-elf/allure-report-action@master
+        if: always()
+        with:
+          allure_results: allure-results
+          allure_history: allure-history
+          keep_reports: 20
+
+      - name: Deploy report to Github Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-history
